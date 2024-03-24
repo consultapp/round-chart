@@ -8,18 +8,22 @@ import { DATA } from "../../DATA";
 const circleInitials: CirlceInitial[] = [
   {
     diametr: 0.4,
-    color: "gray",
-    dotsColor: "gray",
-    activeDotsColor: "green",
-    dotsDiamets: 10,
-    zIndex: 1,
+    color: "#ADADAD",
+    borderThickness: 2.35,
+
+    dotsColor: "#ADADAD",
+    activeDotsColor: "#00A372",
+    dotsDiametrs: 23.7,
+    zIndex: 2,
   },
   {
     diametr: 0.8,
-    color: "lightcoral",
-    dotsColor: "lightcoral",
-    activeDotsColor: "orange",
-    dotsDiamets: 10,
+    borderThickness: 2.35,
+    color: "#ADADAD",
+
+    dotsColor: "#FFD4AD",
+    activeDotsColor: "#FF7A00",
+    dotsDiametrs: 27.53,
     zIndex: 1,
   },
 ];

@@ -1,23 +1,29 @@
-export const DotType = {
-  innerDot: "innerDot",
-  outerDot: "outerDot",
-} as const;
+// export const DotType = {
+//   innerDot: "innerDot",
+//   outerDot: "outerDot",
+// } as const;
 
 export interface CirlceInitial {
   diametr: number;
   color: string;
   dotsColor: string;
   activeDotsColor: string;
-  dotsDiamets: number;
+  dotsDiametrs: number;
+  borderThickness: number;
   zIndex: number;
 }
 
-export type TDotType = keyof typeof DotType;
+// export type TDotType = keyof typeof DotType;
 
 export interface Dot {
-  type: TDotType;
+  // type: TDotType;
   name: string;
   diametr: number;
+
+  color: string;
+  colorActive: string;
+  x: number;
+  y: number;
 }
 
 export interface ChartDimentions {
@@ -30,6 +36,8 @@ export interface ChartDimentions {
 interface BigCircle {
   radius: number;
   color: string;
+  borderThickness: number;
+  zIndex: number;
 }
 
 export interface Circle {
@@ -42,4 +50,9 @@ export interface InitialData {
   name: string;
   mainSkills: string[];
   otherSkills: string[];
+}
+
+export interface IUIContext {
+  circle: number | null;
+  index: number | null;
 }
