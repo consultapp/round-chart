@@ -33,17 +33,12 @@ export class CircleChart {
   getCircles() {
     return this.circleInitials.map((item, index) => ({
       bigCircle: {
-        radius:
-          (Math.min(this.dimentions.w, this.dimentions.h) * item.diametr) / 2,
+        radius: this.getBigCircleRadius(index),
         color: item.color,
         borderWidth: item.borderWidth,
         zIndex: item.zIndex,
-        left:
-          this.dimentions.cX -
-          (Math.min(this.dimentions.w, this.dimentions.h) * item.diametr) / 2,
-        top:
-          this.dimentions.cY -
-          (Math.min(this.dimentions.w, this.dimentions.h) * item.diametr) / 2,
+        left: this.dimentions.cX - this.getBigCircleRadius(index),
+        top: this.dimentions.cY - this.getBigCircleRadius(index),
       },
       dots: this.getDots(index),
     }));
@@ -53,19 +48,56 @@ export class CircleChart {
     const k = 180 / Math.PI;
     const arr = index ? this.skills : this.competence;
     const initials = this.circleInitials[index];
+    const bigCircleRadius = this.getBigCircleRadius(index);
 
+    const nameShift = 30;
     const gap = 360 / arr.length;
-    const radius =
-      (Math.min(this.dimentions.w, this.dimentions.h) * initials.diametr) / 2 +
-      initials.borderWidth / 2;
 
-    return arr.map((item, index) => ({
-      name: item,
-      diametr: initials.dotsDiametrs,
-      color: initials.dotsColor,
-      colorActive: initials.activeDotsColor,
-      x: radius * Math.cos((gap * index - 90) / k),
-      y: radius * Math.sin((gap * index - 90) / k),
-    }));
+    return arr.map((name, index) => {
+      const cos = Math.cos((gap * index + 90) / k);
+      const sin = Math.sin((gap * index + 90) / k);
+      return {
+        diametr: initials.dotsDiametrs,
+        color: initials.dotsColor,
+        colorActive: initials.activeDotsColor,
+        cos,
+        sin,
+        x:
+          bigCircleRadius - (bigCircleRadius * cos + initials.dotsDiametrs / 2),
+        y:
+          bigCircleRadius - (bigCircleRadius * sin + initials.dotsDiametrs / 2),
+        label: {
+          name: name,
+          x: bigCircleRadius - (bigCircleRadius + nameShift) * cos,
+          y: bigCircleRadius - (bigCircleRadius + nameShift) * sin,
+          adjustX:
+            Math.round(cos * 100) / 100 > 0
+              ? "left"
+              : Math.round(cos * 100) / 100 === 0
+              ? "center"
+              : "right",
+          adjustY:
+            Math.floor(sin * 10) / 10 > 0
+              ? "top"
+              : Math.floor(sin * 10) / 10 === 0
+              ? "center"
+              : "bottom",
+          cos,
+          sin,
+          // Math.abs(sin) === 1 ? "center" :
+        },
+      };
+    });
+  }
+
+  getBigCircleDiametr(index: number) {
+    return (
+      Math.min(this.dimentions.w, this.dimentions.h) *
+      this.circleInitials[index].diametr
+    );
+  }
+
+  getBigCircleRadius(index: number) {
+    return this.getBigCircleDiametr(index) / 2;
   }
 }

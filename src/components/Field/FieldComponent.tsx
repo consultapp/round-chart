@@ -4,6 +4,7 @@ import CircleWithDots from "../CircleWithDots/CircleWithDots";
 import { CirlceInitial } from "@/types";
 import { CircleChart } from "@/CircleChart";
 import { DATA } from "../../DATA";
+import UIContextProvider from "@/UIContext/provider";
 
 const circleInitials: CirlceInitial[] = [
   {
@@ -48,10 +49,12 @@ export default function FieldComponent() {
   console.log("circles", circles);
 
   return (
-    <div className={styles.root} ref={ref}>
-      {circles.map((item, index) => (
-        <CircleWithDots circle={item} index={index} key={index} />
-      ))}
-    </div>
+    <UIContextProvider>
+      <div className={styles.root} ref={ref}>
+        {circles.map((item, index) => (
+          <CircleWithDots circle={item} index={index} key={index} />
+        ))}
+      </div>
+    </UIContextProvider>
   );
 }

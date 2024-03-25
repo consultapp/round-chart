@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import { useCallback, useContext } from "react";
 import classNames from "classnames";
 import UIContext from "@/UIContext";
+import DotLabel from "../DotLabel/DotLabel";
 
 export default function CircleWithDots({
   circle,
@@ -24,7 +25,7 @@ export default function CircleWithDots({
     [context, index]
   );
 
-  if (!circle && !context) return <></>;
+  if (!circle && !context) return <div key={`big${index}`}></div>;
 
   const { setSelected, clearSelected } = context as TUIContext;
   const { bigCircle, dots } = circle;
@@ -32,6 +33,7 @@ export default function CircleWithDots({
 
   return (
     <div
+      key={`big${index}`}
       className={styles.root}
       style={{
         width: radius * 2,
@@ -44,39 +46,41 @@ export default function CircleWithDots({
       }}
       onClick={() => clearSelected()}
     >
-      {dots.map((item, i) => (
-        <div
-          key={i}
-          style={{
-            width: item.diametr + (checkIsSelected(i) ? 10 : 0),
-            height: item.diametr + (checkIsSelected(i) ? 10 : 0),
-            left:
-              radius - item.diametr / 2 + item.x - (checkIsSelected(i) ? 5 : 0),
-            top:
-              radius - item.diametr / 2 + item.y - (checkIsSelected(i) ? 5 : 0),
-            backgroundColor: item.color,
-            borderColor: item.colorActive,
-          }}
-          className={classNames(
-            styles.dot,
-            checkIsSelected(i) && styles.active
-          )}
-          onClick={(e) => {
-            e.stopPropagation();
-            setSelected(index, i);
-          }}
-        >
-          <div
-            style={{
-              width: item.diametr,
-              height: item.diametr,
-              backgroundColor: item.colorActive,
-            }}
-            className={styles.activeCenter}
-          ></div>
-          {item.name}
-        </div>
-      ))}
+      {dots.map((item, i) => {
+        return (
+          <>
+            <div
+              key={`dot${i}`}
+              style={{
+                width: item.diametr + (checkIsSelected(i) ? 10 : 0),
+                height: item.diametr + (checkIsSelected(i) ? 10 : 0),
+                left: item.x - (checkIsSelected(i) ? 5 : 0),
+                top: item.y - (checkIsSelected(i) ? 5 : 0),
+                backgroundColor: item.color,
+                borderColor: item.colorActive,
+              }}
+              className={classNames(
+                styles.dot,
+                checkIsSelected(i) && styles.active
+              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelected(index, i);
+              }}
+            >
+              <div
+                style={{
+                  width: item.diametr,
+                  height: item.diametr,
+                  backgroundColor: item.colorActive,
+                }}
+                className={styles.activeCenter}
+              ></div>
+            </div>
+            <DotLabel label={item.label} />
+          </>
+        );
+      })}
     </div>
   );
 }

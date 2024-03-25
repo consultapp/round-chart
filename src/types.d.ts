@@ -17,13 +17,21 @@ export interface CirlceInitial {
 
 export interface Dot {
   // type: TDotType;
-  name: string;
   diametr: number;
 
   color: string;
   colorActive: string;
   x: number;
   y: number;
+  label: ILablel;
+}
+
+export interface ILabel {
+  name: string;
+  x: number;
+  y: number;
+  adjustX?: "left" | "right" | "center";
+  adjustY?: "top" | "bottom" | "center";
 }
 
 export interface ChartDimentions {
@@ -43,7 +51,6 @@ interface BigCircle {
 }
 
 export interface Circle {
-  chartDimentions: ChartDimentions;
   bigCircle: BigCircle;
   dots: Dot[];
 }
