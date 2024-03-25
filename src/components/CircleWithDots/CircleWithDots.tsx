@@ -27,12 +27,8 @@ export default function CircleWithDots({
   if (!circle && !context) return <></>;
 
   const { setSelected, clearSelected } = context as TUIContext;
-
-  console.log("index, circle", index, circle);
-
-  const { chartDimentions, bigCircle, dots } = circle;
-  const { cX, cY } = chartDimentions;
-  const { radius, color, borderThickness, zIndex } = bigCircle;
+  const { bigCircle, dots } = circle;
+  const { radius, color, borderWidth, zIndex, left, top } = bigCircle;
 
   return (
     <div
@@ -40,10 +36,10 @@ export default function CircleWithDots({
       style={{
         width: radius * 2,
         height: radius * 2,
-        left: cX - radius,
-        top: cY - radius,
+        left,
+        top,
         borderColor: color,
-        borderWidth: borderThickness,
+        borderWidth: borderWidth,
         zIndex,
       }}
       onClick={() => clearSelected()}
@@ -78,6 +74,7 @@ export default function CircleWithDots({
             }}
             className={styles.activeCenter}
           ></div>
+          {item.name}
         </div>
       ))}
     </div>

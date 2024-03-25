@@ -9,7 +9,7 @@ export interface CirlceInitial {
   dotsColor: string;
   activeDotsColor: string;
   dotsDiametrs: number;
-  borderThickness: number;
+  borderWidth: number;
   zIndex: number;
 }
 
@@ -36,8 +36,10 @@ export interface ChartDimentions {
 interface BigCircle {
   radius: number;
   color: string;
-  borderThickness: number;
+  borderWidth: number;
   zIndex: number;
+  left: number;
+  top: number;
 }
 
 export interface Circle {

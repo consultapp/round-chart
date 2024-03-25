@@ -9,7 +9,7 @@ const circleInitials: CirlceInitial[] = [
   {
     diametr: 0.4,
     color: "#ADADAD",
-    borderThickness: 2.35,
+    borderWidth: 2.35,
 
     dotsColor: "#ADADAD",
     activeDotsColor: "#00A372",
@@ -18,7 +18,7 @@ const circleInitials: CirlceInitial[] = [
   },
   {
     diametr: 0.8,
-    borderThickness: 2.35,
+    borderWidth: 2.35,
     color: "#ADADAD",
 
     dotsColor: "#FFD4AD",
