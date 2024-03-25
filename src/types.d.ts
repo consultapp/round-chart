@@ -52,7 +52,13 @@ export interface InitialData {
   otherSkills: string[];
 }
 
-export interface IUIContext {
-  circle: number | null;
-  index: number | null;
+export type TUIContext = {
+  selected: ISelected;
+  setSelected: (circleIndex: number, dotIndex: number) => void;
+  clearSelected: () => void;
+};
+
+export interface ISelected {
+  circleIndex: number | null;
+  dotIndex: number | null;
 }

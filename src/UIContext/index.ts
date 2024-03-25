@@ -1,9 +1,6 @@
-import { IUIContext } from "@/types";
-import { Dispatch, createContext } from "react";
+import { TUIContext } from "@/types";
+import { createContext } from "react";
 
-const UIContext = createContext<{
-  selected: IUIContext;
-  dispatch: Dispatch<{ type: string; data: IUIContext }>;
-} | null>(null);
+const UIContext = createContext<TUIContext | null>(null);
 
 export default UIContext;

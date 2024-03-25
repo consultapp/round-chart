@@ -1,38 +1,35 @@
-import React, { useReducer } from "react";
-import { IUIContext } from "@/types";
+import React, { useCallback, useReducer } from "react";
 import UIContext from "./index";
+import { UIContextReducer } from "./reducer";
 
-const initialState = {
-  circle: null,
-  index: null,
+export const initialUIContextState = {
+  circleIndex: null,
+  dotIndex: null,
 };
-
-function reducer(
-  state: IUIContext,
-  action: { type: string; data: IUIContext }
-): IUIContext {
-  const { type, data } = action;
-  switch (type) {
-    case "set":
-      return data;
-
-    case "clear":
-      return initialState;
-
-    default:
-      return state;
-  }
-}
 
 export default function UIContextProvider({
   children,
 }: {
   children: React.ReactElement;
 }) {
-  const [selected, dispatch] = useReducer(reducer, initialState);
+  const [selected, dispatch] = useReducer(
+    UIContextReducer,
+    initialUIContextState
+  );
+
+  const setSelected = useCallback(
+    (circleIndex: number, dotIndex: number) =>
+      dispatch({ type: "set", data: { circleIndex, dotIndex } }),
+    [dispatch]
+  );
+
+  const clearSelected = useCallback(
+    () => dispatch({ type: "clear" }),
+    [dispatch]
+  );
 
   return (
-    <UIContext.Provider value={{ selected, dispatch }}>
+    <UIContext.Provider value={{ selected, setSelected, clearSelected }}>
       {children}
     </UIContext.Provider>
   );

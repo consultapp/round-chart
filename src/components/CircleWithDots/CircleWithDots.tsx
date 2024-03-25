@@ -1,7 +1,8 @@
-import { Circle } from "@/types";
+import { Circle, TUIContext } from "@/types";
 import styles from "./styles.module.scss";
-import { useState } from "react";
+import { useCallback, useContext } from "react";
 import classNames from "classnames";
+import UIContext from "@/UIContext";
 
 export default function CircleWithDots({
   circle,
@@ -10,9 +11,22 @@ export default function CircleWithDots({
   circle: Circle;
   index: number;
 }) {
-  const [state, setState] = useState<number | null>(null);
+  const context = useContext(UIContext);
 
-  if (!circle) return <></>;
+  const checkIsSelected = useCallback(
+    (dotIndex: number) => {
+      if (context && context.selected)
+        return (
+          context.selected.dotIndex === dotIndex &&
+          context.selected.circleIndex === index
+        );
+    },
+    [context, index]
+  );
+
+  if (!circle && !context) return <></>;
+
+  const { setSelected, clearSelected } = context as TUIContext;
 
   console.log("index, circle", index, circle);
 
@@ -32,23 +46,28 @@ export default function CircleWithDots({
         borderWidth: borderThickness,
         zIndex,
       }}
+      onClick={() => clearSelected()}
     >
-      {dots.map((item, index) => (
+      {dots.map((item, i) => (
         <div
-          key={index}
+          key={i}
           style={{
-            width: item.diametr + (state === index ? 10 : 0),
-            height: item.diametr + (state === index ? 10 : 0),
+            width: item.diametr + (checkIsSelected(i) ? 10 : 0),
+            height: item.diametr + (checkIsSelected(i) ? 10 : 0),
             left:
-              radius - item.diametr / 2 + item.x - (state === index ? 5 : 0),
-            top: radius - item.diametr / 2 + item.y - (state === index ? 5 : 0),
+              radius - item.diametr / 2 + item.x - (checkIsSelected(i) ? 5 : 0),
+            top:
+              radius - item.diametr / 2 + item.y - (checkIsSelected(i) ? 5 : 0),
             backgroundColor: item.color,
             borderColor: item.colorActive,
           }}
-          className={classNames(styles.dot, state === index && styles.active)}
-          onClick={() => {
-            console.log("state", state);
-            setState(index);
+          className={classNames(
+            styles.dot,
+            checkIsSelected(i) && styles.active
+          )}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelected(index, i);
           }}
         >
           <div
