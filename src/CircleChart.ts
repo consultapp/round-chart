@@ -72,16 +72,16 @@ export class CircleChart {
           y: bigCircleRadius - (bigCircleRadius + nameShift) * sin,
           adjustX:
             Math.round(cos * 100) / 100 > 0
-              ? "left"
+              ? "right"
               : Math.round(cos * 100) / 100 === 0
               ? "center"
-              : "right",
+              : "left",
           adjustY:
             Math.floor(sin * 10) / 10 > 0
-              ? "top"
+              ? "bottom"
               : Math.floor(sin * 10) / 10 === 0
               ? "center"
-              : "bottom",
+              : "top",
           cos,
           sin,
           // Math.abs(sin) === 1 ? "center" :

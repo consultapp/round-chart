@@ -19,7 +19,7 @@ export default function DotLabel({ label }: Props) {
 
   let adjustX = 0;
   switch (label.adjustX) {
-    case "left":
+    case "right":
       adjustX = rect?.w ?? 0;
       break;
     case "center":
@@ -29,7 +29,7 @@ export default function DotLabel({ label }: Props) {
 
   let adjustY = 0;
   switch (label.adjustY) {
-    case "top":
+    case "bottom":
       adjustY = rect?.h ?? 0;
       break;
     case "center":
@@ -44,6 +44,7 @@ export default function DotLabel({ label }: Props) {
       style={{
         left: label.x - adjustX,
         top: label.y - adjustY,
+        textAlign: label.adjustX,
       }}
       className={styles.root}
     >
