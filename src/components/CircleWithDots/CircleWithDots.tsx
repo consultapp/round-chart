@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { useContext } from "react";
 import UIContext from "@/UIContext";
 import DotLabel from "../DotLabel/DotLabel";
-import DotComponent from "../Dot/DotComponent";
+import DotComponent from "../DotComponent/DotComponent";
 
 export default function CircleWithDots({
   circle,
