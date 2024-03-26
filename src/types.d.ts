@@ -1,8 +1,3 @@
-// export const DotType = {
-//   innerDot: "innerDot",
-//   outerDot: "outerDot",
-// } as const;
-
 export interface CirlceInitial {
   diametr: number;
   color: string;
@@ -13,17 +8,16 @@ export interface CirlceInitial {
   zIndex: number;
 }
 
-// export type TDotType = keyof typeof DotType;
-
 export interface Dot {
-  // type: TDotType;
   diametr: number;
-
   color: string;
   colorActive: string;
   x: number;
   y: number;
   label: ILablel;
+
+  isSelected?: boolean;
+  isActive?: boolean;
 }
 
 export interface ILabel {
@@ -63,8 +57,8 @@ export interface InitialData {
 
 export type TUIContext = {
   selected: ISelected;
-  setSelected: (circleIndex: number, dotIndex: number) => void;
-  clearSelected: () => void;
+  setSelected?: (circleIndex: number, dotIndex: number) => void;
+  clearSelected?: () => void;
 };
 
 export interface ISelected {

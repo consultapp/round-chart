@@ -1,11 +1,6 @@
 import React, { useCallback, useReducer } from "react";
-import UIContext from "./index";
+import UIContext, { initialUIContextState } from "./index";
 import { UIContextReducer } from "./reducer";
-
-export const initialUIContextState = {
-  circleIndex: null,
-  dotIndex: null,
-};
 
 export default function UIContextProvider({
   children,

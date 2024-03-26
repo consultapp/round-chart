@@ -1,5 +1,5 @@
 import { ISelected } from "@/types";
-import { initialUIContextState } from "./provider";
+import { initialUIContextState } from "./index";
 
 export function UIContextReducer(
   state: ISelected,

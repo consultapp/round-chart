@@ -1,4 +1,4 @@
-import { ChartDimentions, Dot, InitialData } from "./types";
+import { ChartDimentions, Dot, ISelected, InitialData } from "./types";
 import { CirlceInitial } from "@/types";
 
 export class CircleChart {
@@ -30,7 +30,7 @@ export class CircleChart {
     this.competence = data.map((item) => item.name);
   }
 
-  getCircles() {
+  getCircles(selected: ISelected) {
     return this.circleInitials.map((item, index) => ({
       bigCircle: {
         radius: this.getBigCircleRadius(index),
@@ -40,28 +40,48 @@ export class CircleChart {
         left: this.dimentions.cX - this.getBigCircleRadius(index),
         top: this.dimentions.cY - this.getBigCircleRadius(index),
       },
-      dots: this.getDots(index),
+      dots: this.getDots(index, selected),
     }));
   }
 
-  getDots(index: number): Dot[] {
+  centerSkillsFrontToFirstCompetence(index: number) {
+    if (index === 0) return 0;
+    const skillCount =
+      this.data[1].mainSkills.length + this.data[1].otherSkills.length;
+    const gap = 360 / this.skills.length;
+
+    return -(skillCount / 3) * gap;
+  }
+
+  getDots(circleIndex: number, selected: ISelected): Dot[] {
     const k = 180 / Math.PI;
-    const arr = index ? this.skills : this.competence;
-    const initials = this.circleInitials[index];
-    const bigCircleRadius = this.getBigCircleRadius(index);
+    const arr = circleIndex ? this.skills : this.competence;
+    const initials = this.circleInitials[circleIndex];
+    const bigCircleRadius = this.getBigCircleRadius(circleIndex);
 
     const nameShift = 30;
     const gap = 360 / arr.length;
 
     return arr.map((name, index) => {
-      const cos = Math.cos((gap * index + 90) / k);
-      const sin = Math.sin((gap * index + 90) / k);
+      const cos = Math.cos(
+        (gap * index +
+          90 +
+          this.centerSkillsFrontToFirstCompetence(circleIndex)) /
+          k
+      );
+      const sin = Math.sin(
+        (gap * index +
+          90 +
+          this.centerSkillsFrontToFirstCompetence(circleIndex)) /
+          k
+      );
       return {
         diametr: initials.dotsDiametrs,
         color: initials.dotsColor,
         colorActive: initials.activeDotsColor,
-        cos,
-        sin,
+        isSelected:
+          circleIndex === selected.circleIndex && index === selected.dotIndex,
+        isActive: this.checkDotIsActive(selected, circleIndex, index),
         x:
           bigCircleRadius - (bigCircleRadius * cos + initials.dotsDiametrs / 2),
         y:
@@ -82,9 +102,6 @@ export class CircleChart {
               : Math.floor(sin * 10) / 10 === 0
               ? "center"
               : "top",
-          cos,
-          sin,
-          // Math.abs(sin) === 1 ? "center" :
         },
       };
     });
@@ -99,5 +116,37 @@ export class CircleChart {
 
   getBigCircleRadius(index: number) {
     return this.getBigCircleDiametr(index) / 2;
+  }
+
+  checkDotIsActive(selected: ISelected, circleIndex: number, dotIndex: number) {
+    if (selected.circleIndex === null || circleIndex === selected.circleIndex)
+      return false;
+
+    if (circleIndex === 1) {
+      const selectedCompetence = this.competence[selected.dotIndex ?? 0];
+      const [filtered] = this.data.filter(
+        (item) => item.name === selectedCompetence
+      );
+      if (filtered) {
+        if (
+          filtered.mainSkills.includes(this.skills[dotIndex]) ||
+          filtered.otherSkills.includes(this.skills[dotIndex])
+        ) {
+          return true;
+        }
+      }
+    }
+    if (circleIndex === 0) {
+      const selectedSkill = this.skills[selected.dotIndex ?? 0];
+      const competencesArr = this.data.filter(
+        (item) =>
+          item.mainSkills.includes(selectedSkill) ||
+          item.mainSkills.includes(selectedSkill)
+      );
+      const competences = competencesArr.map((item) => item.name);
+      if (competences.includes(this.competence[dotIndex])) return true;
+    }
+
+    return false;
   }
 }

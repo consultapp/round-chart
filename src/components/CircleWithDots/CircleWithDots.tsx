@@ -1,9 +1,9 @@
-import { Circle, TUIContext } from "@/types";
+import { Circle } from "@/types";
 import styles from "./styles.module.scss";
-import { useCallback, useContext } from "react";
-import classNames from "classnames";
+import { useContext } from "react";
 import UIContext from "@/UIContext";
 import DotLabel from "../DotLabel/DotLabel";
+import DotComponent from "../Dot/DotComponent";
 
 export default function CircleWithDots({
   circle,
@@ -14,20 +14,9 @@ export default function CircleWithDots({
 }) {
   const context = useContext(UIContext);
 
-  const checkIsSelected = useCallback(
-    (dotIndex: number) => {
-      if (context && context.selected)
-        return (
-          context.selected.dotIndex === dotIndex &&
-          context.selected.circleIndex === index
-        );
-    },
-    [context, index]
-  );
-
   if (!circle && !context) return <div key={`big${index}`}></div>;
 
-  const { setSelected, clearSelected } = context as TUIContext;
+  const { setSelected, clearSelected } = context;
   const { bigCircle, dots } = circle;
   const { radius, color, borderWidth, zIndex, left, top } = bigCircle;
 
@@ -44,39 +33,15 @@ export default function CircleWithDots({
         borderWidth: borderWidth,
         zIndex,
       }}
-      onClick={() => clearSelected()}
+      onClick={() => clearSelected && clearSelected()}
     >
       {dots.map((item, i) => {
         return (
           <>
-            <div
-              key={`dot${i}`}
-              style={{
-                width: item.diametr + (checkIsSelected(i) ? 10 : 0),
-                height: item.diametr + (checkIsSelected(i) ? 10 : 0),
-                left: item.x - (checkIsSelected(i) ? 5 : 0),
-                top: item.y - (checkIsSelected(i) ? 5 : 0),
-                backgroundColor: item.color,
-                borderColor: item.colorActive,
-              }}
-              className={classNames(
-                styles.dot,
-                checkIsSelected(i) && styles.active
-              )}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelected(index, i);
-              }}
-            >
-              <div
-                style={{
-                  width: item.diametr,
-                  height: item.diametr,
-                  backgroundColor: item.colorActive,
-                }}
-                className={styles.activeCenter}
-              ></div>
-            </div>
+            <DotComponent
+              dot={item}
+              selectDot={() => setSelected && setSelected(index, i)}
+            />
             <DotLabel label={item.label} />
           </>
         );

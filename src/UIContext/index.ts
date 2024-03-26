@@ -1,6 +1,13 @@
 import { TUIContext } from "@/types";
 import { createContext } from "react";
 
-const UIContext = createContext<TUIContext | null>(null);
+export const initialUIContextState = {
+  circleIndex: null,
+  dotIndex: null,
+};
+
+const UIContext = createContext<TUIContext>({
+  selected: initialUIContextState,
+});
 
 export default UIContext;

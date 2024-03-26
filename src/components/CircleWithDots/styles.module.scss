@@ -6,29 +6,3 @@
 
   cursor: pointer;
 }
-
-.dot {
-  position: absolute;
-  border-radius: 50%;
-  border: 0;
-
-  & div {
-    visibility: hidden;
-  }
-}
-
-.active {
-  border: 1px solid #00a372;
-  background-color: white !important;
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & div {
-    visibility: visible;
-    background-color: #00a372;
-    border-radius: 50%;
-  }
-}

@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import CircleWithDots from "../CircleWithDots/CircleWithDots";
 import { CirlceInitial } from "@/types";
 import { CircleChart } from "@/CircleChart";
 import { DATA } from "../../DATA";
-import UIContextProvider from "@/UIContext/provider";
+import UIContext from "@/UIContext";
 
 const circleInitials: CirlceInitial[] = [
   {
@@ -33,8 +33,9 @@ export default function FieldComponent() {
   const ref = useRef<HTMLDivElement | null>(null);
   const [circleChart, setCircleChart] = useState<CircleChart | null>(null);
 
+  const { selected } = useContext(UIContext);
+
   useEffect(() => {
-    console.log("useEffect1");
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
       if (rect)
@@ -44,17 +45,14 @@ export default function FieldComponent() {
     }
   }, []);
 
-  const circles = circleChart ? circleChart.getCircles() : [];
-
-  console.log("circles", circles);
+  const circles =
+    circleChart && selected ? circleChart.getCircles(selected) : [];
 
   return (
-    <UIContextProvider>
-      <div className={styles.root} ref={ref}>
-        {circles.map((item, index) => (
-          <CircleWithDots circle={item} index={index} key={index} />
-        ))}
-      </div>
-    </UIContextProvider>
+    <div className={styles.root} ref={ref}>
+      {circles.map((item, index) => (
+        <CircleWithDots circle={item} index={index} key={index} />
+      ))}
+    </div>
   );
 }
