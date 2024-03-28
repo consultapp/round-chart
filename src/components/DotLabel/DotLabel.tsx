@@ -1,10 +1,11 @@
 import { ILabel } from "@/types";
 import styles from "./styles.module.scss";
 import { useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 
-type Props = { label: ILabel };
+type Props = { label: ILabel; isSelected: boolean };
 
-export default function DotLabel({ label }: Props) {
+export default function DotLabel({ label, isSelected }: Props) {
   const ref = useRef<HTMLLabelElement | null>(null);
   const [rect, setRect] = useState<{ w: number; h: number } | null>(null);
 
@@ -46,7 +47,7 @@ export default function DotLabel({ label }: Props) {
         top: label.y - adjustY,
         textAlign: label.adjustX,
       }}
-      className={styles.root}
+      className={classNames(styles.root, isSelected && styles.selected)}
     >
       {label.name}
     </label>

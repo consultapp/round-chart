@@ -43,7 +43,10 @@ export default function CircleWithDots({
               dot={item}
               selectDot={() => setSelected && setSelected(index, i)}
             />
-            <DotLabel label={item.label} />
+            <DotLabel
+              label={item.label}
+              isSelected={item.isSelected ?? false}
+            />
           </React.Fragment>
         );
       })}
