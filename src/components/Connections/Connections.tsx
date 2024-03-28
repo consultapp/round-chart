@@ -18,13 +18,12 @@ export default function Connections({ connections, dimentions }: Props) {
 
     return (
       <g
+        key={endDot.x + startDot.x + endDot.y + startDot.y}
         fill="none"
         stroke={(type ?? "main") === "main" ? "#FF7A00" : "#8F59B9"}
-        stroke-width="2"
-        marker-end="url(#arrowhead)"
+        strokeWidth="2"
       >
         <path d={"M" + x1 + " " + y1 + " " + "L" + x2 + " " + y2} />
-        <circle cx={x1} cy={y1} r="4" />
       </g>
     );
   });
