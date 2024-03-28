@@ -1,6 +1,5 @@
 import { Dot } from "@/types";
 import classNames from "classnames";
-import { useId } from "react";
 import styles from "./styles.module.scss";
 
 type Props = {
@@ -14,11 +13,8 @@ export default function DotComponent({
 
   selectDot,
 }: Props) {
-  const id = useId();
-
   return (
     <div
-      key={id}
       style={{
         width: dot.diametr + 10,
         height: dot.diametr + 10,

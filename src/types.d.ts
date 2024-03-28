@@ -15,9 +15,11 @@ export interface Dot {
   x: number;
   y: number;
   label: ILablel;
+  normX?: number;
+  normY?: number;
 
   isSelected?: boolean;
-  isActive?: boolean;
+  isActive?: "main" | "other" | boolean;
 }
 
 export interface ILabel {

@@ -128,25 +128,61 @@ export class CircleChart {
         (item) => item.name === selectedCompetence
       );
       if (filtered) {
-        if (
-          filtered.mainSkills.includes(this.skills[dotIndex]) ||
-          filtered.otherSkills.includes(this.skills[dotIndex])
-        ) {
-          return true;
+        if (filtered.mainSkills.includes(this.skills[dotIndex])) {
+          return "main";
+        }
+        if (filtered.otherSkills.includes(this.skills[dotIndex])) {
+          return "other";
         }
       }
     }
     if (circleIndex === 0) {
       const selectedSkill = this.skills[selected.dotIndex ?? 0];
-      const competencesArr = this.data.filter(
-        (item) =>
-          item.mainSkills.includes(selectedSkill) ||
-          item.mainSkills.includes(selectedSkill)
+      const competencesArrMain = this.data.filter((item) =>
+        item.mainSkills.includes(selectedSkill)
       );
-      const competences = competencesArr.map((item) => item.name);
-      if (competences.includes(this.competence[dotIndex])) return true;
+      const competencesMain = competencesArrMain.map((item) => item.name);
+      if (competencesMain.includes(this.competence[dotIndex])) return "main";
+
+      const competencesArrOther = this.data.filter((item) =>
+        item.otherSkills.includes(selectedSkill)
+      );
+      const competencesOther = competencesArrOther.map((item) => item.name);
+      if (competencesOther.includes(this.competence[dotIndex])) return "other";
     }
 
     return false;
+  }
+
+  getConnections(selected: ISelected | null) {
+    if (!selected) return null;
+
+    const circles = this.getCircles(selected);
+    const startDots: Dot[] = [];
+    const endDots: Dot[] = [];
+    circles.forEach((circle) => {
+      circle.dots.forEach((dot) => {
+        if (dot.isActive)
+          endDots.push({
+            ...dot,
+            normX: circle.bigCircle.left,
+            normY: circle.bigCircle.top,
+          });
+        if (dot.isSelected)
+          startDots.push({
+            ...dot,
+            normX: circle.bigCircle.left,
+            normY: circle.bigCircle.top,
+          });
+      });
+    });
+
+    if (!startDots.length || !endDots.length) return null;
+    const [startDot] = startDots;
+    return endDots.map((item) => ({
+      startDot,
+      endDot: item,
+      type: item.isActive,
+    }));
   }
 }

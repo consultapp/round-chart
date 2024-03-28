@@ -5,6 +5,7 @@ import { CirlceInitial } from "@/types";
 import { CircleChart } from "@/CircleChart";
 import { DATA } from "../../DATA";
 import UIContext from "@/UIContext";
+import Connections from "../Connections/Connections";
 
 const circleInitials: CirlceInitial[] = [
   {
@@ -35,6 +36,8 @@ export default function FieldComponent() {
 
   const { selected } = useContext(UIContext);
 
+  console.log("circleChart.get", circleChart?.getConnections(selected));
+
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
@@ -51,8 +54,16 @@ export default function FieldComponent() {
   return (
     <div className={styles.root} ref={ref}>
       {circles.map((item, index) => (
-        <CircleWithDots circle={item} index={index} key={index} />
+        <CircleWithDots
+          circle={item}
+          index={index}
+          key={`CircleWithDots${index}`}
+        />
       ))}
+      <Connections
+        connections={circleChart?.getConnections(selected) ?? []}
+        dimentions={circleChart?.dimentions ?? null}
+      />
     </div>
   );
 }
