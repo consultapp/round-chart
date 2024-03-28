@@ -8,7 +8,6 @@ type Props = {
 };
 
 export default function Connections({ connections, dimentions }: Props) {
-  console.log("connections", connections);
   if (!connections || !connections.length || !dimentions) return;
   const paths = connections.map((connection) => {
     const { startDot, endDot, type } = connection;
@@ -20,7 +19,7 @@ export default function Connections({ connections, dimentions }: Props) {
     return (
       <g
         fill="none"
-        stroke={(type ?? "main") === "main" ? "blue" : "green"}
+        stroke={(type ?? "main") === "main" ? "#FF7A00" : "#8F59B9"}
         stroke-width="2"
         marker-end="url(#arrowhead)"
       >

@@ -36,8 +36,6 @@ export default function FieldComponent() {
 
   const { selected } = useContext(UIContext);
 
-  console.log("circleChart.get", circleChart?.getConnections(selected));
-
   useEffect(() => {
     if (ref.current) {
       const rect = ref.current.getBoundingClientRect();
