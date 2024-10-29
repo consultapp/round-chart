@@ -41,7 +41,12 @@ export default function FieldComponent() {
       const rect = ref.current.getBoundingClientRect();
       if (rect)
         setCircleChart(
-          new CircleChart(rect.width, rect.height, DATA, circleInitials)
+          new CircleChart(
+            rect.width - 100,
+            rect.height - 100,
+            DATA,
+            circleInitials
+          )
         );
     }
   }, []);
